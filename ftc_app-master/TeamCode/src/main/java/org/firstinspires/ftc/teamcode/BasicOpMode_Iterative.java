@@ -59,6 +59,8 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotor CardiA = null;
+    private DcMotor beltboy = null;
+    private boolean togglebelt = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -73,6 +75,7 @@ public class BasicOpMode_Iterative extends OpMode
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
+        beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -120,6 +123,16 @@ public class BasicOpMode_Iterative extends OpMode
         rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
         boolean forwardCardiA = gamepad1.a;
         boolean backwardCardiA = gamepad1.b;
+        if (gamepad1.left_bumper) {
+            if (togglebelt){ togglebelt = false; }
+            if (!togglebelt){ togglebelt = true; }
+        }
+        if (togglebelt){
+            beltboy.setPower(1);
+        }
+        else if(!togglebelt){
+            beltboy.setPower(0);
+        }
         if (forwardCardiA || backwardCardiA) {
             if (forwardCardiA) {
                 CardiA.setPower(.3);
