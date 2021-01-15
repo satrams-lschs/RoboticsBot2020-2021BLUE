@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.app.LauncherActivity;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -59,12 +61,14 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotor CardiA = null;
-
+    private DcMotor Launcher = null;
+    private boolean launcherToggle = false;
     /*
      * Code to run ONCE when the driver hits INIT
      */
     @Override
     public void init() {
+
         telemetry.addData("Status", "Initialized");
 
         // Initialize the hardware variables. Note that the strings used here as parameters
@@ -73,6 +77,7 @@ public class BasicOpMode_Iterative extends OpMode
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
+        Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -108,7 +113,16 @@ public class BasicOpMode_Iterative extends OpMode
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
         double rightPower;
+        boolean input;
+        if(gamepad1.right_bumper) {
+            if(launcherToggle) {launcherToggle = false;}
+            if(!launcherToggle) {launcherToggle = true;}
 
+            }
+        if (launcherToggle) {Launcher.setPower(1);}
+        else if(!launcherToggle){
+            Launcher.setPower(0);
+        }
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
 
@@ -152,4 +166,6 @@ public class BasicOpMode_Iterative extends OpMode
     public void stop() {
     }
 
-}
+
+    }
+
