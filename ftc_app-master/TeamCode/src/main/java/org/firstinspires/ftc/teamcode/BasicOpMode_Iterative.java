@@ -58,13 +58,21 @@ public class BasicOpMode_Iterative extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+
     private DcMotor FLDrive = null;
     private DcMotor FRDrive = null;
+
     private DcMotor BLDrive = null;
     private DcMotor BRDrive = null;
+
     private DcMotor CardiA = null;
+
     private DcMotor Launcher = null;
     private boolean launcherToggle = false;
+
+    private DcMotor scoopydoo = null;
+    private boolean togglescoop = false;
+
     private DcMotor beltboy = null;
     private boolean togglebelt = false;
     /*
@@ -85,6 +93,7 @@ public class BasicOpMode_Iterative extends OpMode
         CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
         Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
         beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
+        scoopydoo = hardwareMap.get(DcMotor.class, "scoopMAN" );
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         FLDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -149,6 +158,16 @@ public class BasicOpMode_Iterative extends OpMode
 
         boolean forwardCardiA = gamepad1.a;
         boolean backwardCardiA = gamepad1.b;
+        if (gamepad1.x){
+            if (togglescoop){ togglescoop = false; }
+            if (!togglescoop){ togglescoop = true;}
+        }
+        if (togglescoop){
+            scoopydoo.setPower(1);
+        }
+        else if(!togglescoop){
+            scoopydoo.setPower(0);
+        }
         if (gamepad1.left_bumper) {
             if (togglebelt){ togglebelt = false; }
             if (!togglebelt){ togglebelt = true; }
