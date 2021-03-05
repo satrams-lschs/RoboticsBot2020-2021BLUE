@@ -65,9 +65,9 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor BLDrive = null;
     private DcMotor BRDrive = null;
 
-    private DcMotor CardiA = null;
+    // private DcMotor CardiA = null;
 
-    private DcMotor Launcher = null;
+ /*   private DcMotor Launcher = null;
     private boolean launcherToggle = false;
 
     private DcMotor scoopydoo = null;
@@ -90,10 +90,10 @@ public class BasicOpMode_Iterative extends OpMode
         FRDrive = hardwareMap.get(DcMotor.class, "FR_drive");
         BLDrive  = hardwareMap.get(DcMotor.class, "BL_drive");
         BRDrive = hardwareMap.get(DcMotor.class, "BR_drive");
-        CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
-        Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
-        beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
-        scoopydoo = hardwareMap.get(DcMotor.class, "scoopMAN" );
+        // CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
+       // Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
+        //beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
+        //scoopydoo = hardwareMap.get(DcMotor.class, "scoopMAN" );
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         FLDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -101,7 +101,7 @@ public class BasicOpMode_Iterative extends OpMode
         FLDrive.setDirection(DcMotor.Direction.FORWARD);
         FRDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        CardiA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // CardiA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -132,7 +132,7 @@ public class BasicOpMode_Iterative extends OpMode
         double FRPower;
         double BLPower;
         double BRPower;
-        boolean input;
+       /* boolean input;
         if(gamepad1.right_bumper) {
             if(launcherToggle) {launcherToggle = false;}
             if(!launcherToggle) {launcherToggle = true;}
@@ -142,6 +142,8 @@ public class BasicOpMode_Iterative extends OpMode
         else if(!launcherToggle){
             Launcher.setPower(0);
         }
+
+        */
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
 
@@ -155,7 +157,7 @@ public class BasicOpMode_Iterative extends OpMode
         BLPower    = Range.clip(vertMove + turn + horMove, -1.0, 1.0) ;
         BRPower   = Range.clip(vertMove - turn + horMove, -1.0, 1.0) ;
 
-
+/*
         boolean forwardCardiA = gamepad1.a;
         boolean backwardCardiA = gamepad1.b;
         if (gamepad1.x){
@@ -178,7 +180,7 @@ public class BasicOpMode_Iterative extends OpMode
         else if(!togglebelt){
             beltboy.setPower(0);
         }
-        if (forwardCardiA || backwardCardiA) {
+       /*if (forwardCardiA || backwardCardiA) {
             if (forwardCardiA) {
                 CardiA.setPower(.3);
             } else {
@@ -193,7 +195,7 @@ public class BasicOpMode_Iterative extends OpMode
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
         // leftPower  = -gamepad1.left_stick_y ;
         // rightPower = -gamepad1.right_stick_y ;
-
+*/
         // Send calculated power to wheels
         FLDrive.setPower(FLPower);
         FRDrive.setPower(FRPower);
