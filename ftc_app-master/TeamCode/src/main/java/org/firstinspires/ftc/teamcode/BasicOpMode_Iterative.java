@@ -62,7 +62,6 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor FRDrive = null;
     private DcMotor BLDrive = null;
     private DcMotor BRDrive = null;
-<<<<<<< HEAD
 
     // private DcMotor CardiA = null;
 
@@ -89,16 +88,16 @@ public class BasicOpMode_Iterative extends OpMode
         FRDrive = hardwareMap.get(DcMotor.class, "FR_drive");
         BLDrive  = hardwareMap.get(DcMotor.class, "BL_drive");
         BRDrive = hardwareMap.get(DcMotor.class, "BR_drive");
-<<<<<<< HEAD
+
         // CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
        // Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
         //beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
         //scoopydoo = hardwareMap.get(DcMotor.class, "scoopMAN" );
-=======
-        CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
-        Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
-        beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
->>>>>>> parent of 94029e5 (e)
+
+        //CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
+        //Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
+        //beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
+
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         FLDrive.setDirection(DcMotor.Direction.FORWARD);
