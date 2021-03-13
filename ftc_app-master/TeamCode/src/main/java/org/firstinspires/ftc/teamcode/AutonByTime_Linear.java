@@ -69,16 +69,13 @@ public class AutonByTime_Linear extends LinearOpMode {
     private DcMotor BLDrive = null;
     private DcMotor BRDrive = null;
     private DcMotor Zspin = null;
-    private boolean ZspinToggle = false;
 
     // private DcMotor CardiA = null;
 
     private DcMotor Launcher = null;
 
     private DcMotor CardiA = null;
-    private boolean launcherToggle = false;
     private DcMotor beltboy = null;
-    private boolean togglebelt = false;
     private DcMotor scoopydoo = null;
 
     static final double     FORWARD_SPEED = 0.6;
@@ -109,6 +106,16 @@ public class AutonByTime_Linear extends LinearOpMode {
         Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
         beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
         scoopydoo = hardwareMap.get(DcMotor.class, "scoopMAN" );
+
+        FLDrive.setDirection(DcMotor.Direction.FORWARD);
+        FRDrive.setDirection(DcMotor.Direction.REVERSE);
+        BLDrive.setDirection(DcMotor.Direction.FORWARD);
+        BRDrive.setDirection(DcMotor.Direction.REVERSE);
+        beltboy.setDirection(DcMotor.Direction.REVERSE);
+        scoopydoo.setDirection(DcMotor.Direction.REVERSE);
+
+
+
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
