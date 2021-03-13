@@ -27,12 +27,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -55,24 +58,41 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Pushbot: Auto Drive By Time", group="Pushbot")
-@Disabled
-public class PushbotAutoDriveByTime_Linear extends LinearOpMode {
+@Autonomous(name="AutonChained: Auto Drive By Time", group="Autonomous")
+public class AutonByTime_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
+    private DcMotor FLDrive = null;
+    private DcMotor FRDrive = null;
+    private DcMotor BLDrive = null;
+    private DcMotor BRDrive = null;
+    private DcMotor Zspin = null;
+    private boolean ZspinToggle = false;
+
+    // private DcMotor CardiA = null;
+
+    private DcMotor Launcher = null;
+
+    private DcMotor CardiA = null;
+    private boolean launcherToggle = false;
+    private DcMotor beltboy = null;
+    private boolean togglebelt = false;
+    private DcMotor scoopydoo = null;
 
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
+
     public void wait(double waittime) {
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < waittime)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
     }
+
     @Override
     public void runOpMode() {
 
@@ -80,8 +100,15 @@ public class PushbotAutoDriveByTime_Linear extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap);
+        FLDrive  = hardwareMap.get(DcMotor.class, "FL_drive");
+        FRDrive = hardwareMap.get(DcMotor.class, "FR_drive");
+        BLDrive  = hardwareMap.get(DcMotor.class, "BL_drive");
+        BRDrive = hardwareMap.get(DcMotor.class, "BR_drive");
+        Zspin = hardwareMap.get(DcMotor.class, "Z_spin" );
 
+        Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
+        beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
+        scoopydoo = hardwareMap.get(DcMotor.class, "scoopMAN" );
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
@@ -91,29 +118,7 @@ public class PushbotAutoDriveByTime_Linear extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Drive forward for 3 seconds
-        robot.leftDrive.setPower(FORWARD_SPEED);
-        robot.rightDrive.setPower(FORWARD_SPEED);
-        wait(2.5);
 
-        // Step 2:  Spin right for 1.3 seconds
-        robot.leftDrive.setPower(TURN_SPEED);
-        robot.rightDrive.setPower(-TURN_SPEED);
-        wait(1.5);
-
-        // Step 3:  Drive Backwards for 1 Second
-        robot.leftDrive.setPower(-FORWARD_SPEED);
-        robot.rightDrive.setPower(-FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        // Step 4:  Stop and close the claw.
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-        robot.leftClaw.setPosition(1.0);
-        robot.rightClaw.setPosition(0.0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

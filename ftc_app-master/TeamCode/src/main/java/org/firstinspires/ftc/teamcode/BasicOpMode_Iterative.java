@@ -62,17 +62,18 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor FRDrive = null;
     private DcMotor BLDrive = null;
     private DcMotor BRDrive = null;
+    private DcMotor Zspin = null;
+    private boolean ZspinToggle = false;
 
     // private DcMotor CardiA = null;
 
- /*   private DcMotor Launcher = null;
-=======
-    private DcMotor CardiA = null;
     private DcMotor Launcher = null;
->>>>>>> parent of 94029e5 (e)
+
+    private DcMotor CardiA = null;
     private boolean launcherToggle = false;
     private DcMotor beltboy = null;
     private boolean togglebelt = false;
+    private DcMotor scoopydoo = null;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -88,23 +89,22 @@ public class BasicOpMode_Iterative extends OpMode
         FRDrive = hardwareMap.get(DcMotor.class, "FR_drive");
         BLDrive  = hardwareMap.get(DcMotor.class, "BL_drive");
         BRDrive = hardwareMap.get(DcMotor.class, "BR_drive");
+        Zspin = hardwareMap.get(DcMotor.class, "Z_spin" );
 
-        // CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
-       // Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
-        //beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
-        //scoopydoo = hardwareMap.get(DcMotor.class, "scoopMAN" );
+        Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
+        beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
+        scoopydoo = hardwareMap.get(DcMotor.class, "scoopMAN" );
 
-        //CardiA = hardwareMap.get(DcMotor.class, "CardiArm" );
-        //Launcher = hardwareMap.get(DcMotor.class,  "Launcher");
-        //beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
+
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         FLDrive.setDirection(DcMotor.Direction.FORWARD);
         FRDrive.setDirection(DcMotor.Direction.REVERSE);
-        FLDrive.setDirection(DcMotor.Direction.FORWARD);
-        FRDrive.setDirection(DcMotor.Direction.REVERSE);
-
+        BLDrive.setDirection(DcMotor.Direction.FORWARD);
+        BRDrive.setDirection(DcMotor.Direction.REVERSE);
+        beltboy.setDirection(DcMotor.Direction.REVERSE);
+        scoopydoo.setDirection(DcMotor.Direction.REVERSE);
         // CardiA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Tell the driver that initialization is complete.
@@ -136,6 +136,40 @@ public class BasicOpMode_Iterative extends OpMode
         double FRPower;
         double BLPower;
         double BRPower;
+         boolean input;
+
+         //set boolean input to gamepad1.dpad_down
+        //set Zspin's power to the boolean (since it's either zero [false] or one [true]) there is code online to do this just look it up
+
+
+        if(gamepad1.b) {
+            Zspin.setPower(1);
+            telemetry.addData("Buttons", "this is being pressed");
+        }
+        else{
+            Zspin.setPower(0);
+        }
+
+        if(gamepad1.right_bumper) {
+            Launcher.setPower(-1);
+            beltboy.setPower(1);
+            scoopydoo.setPower(1);
+
+        }
+        else if(gamepad1.left_bumper) {
+
+            Launcher.setPower(-1);
+            beltboy.setPower(-1);
+            scoopydoo.setPower(-1);
+        }
+        else{
+            Launcher.setPower(0);
+            beltboy.setPower(0);
+            scoopydoo.setPower(0);
+        }
+
+
+
        /* boolean input;
         if(gamepad1.right_bumper) {
             if(launcherToggle) {launcherToggle = false;}
@@ -156,10 +190,10 @@ public class BasicOpMode_Iterative extends OpMode
         double vertMove = gamepad1.left_stick_y;
         double horMove = gamepad1.left_stick_x;
         double turn  =  gamepad1.right_stick_x;
-        FLPower    = Range.clip(vertMove + turn - horMove, -1.0, 1.0) ;
-        FRPower   = Range.clip(vertMove - turn - horMove, -1.0, 1.0) ;
-        BLPower    = Range.clip(vertMove + turn + horMove, -1.0, 1.0) ;
-        BRPower   = Range.clip(vertMove - turn + horMove, -1.0, 1.0) ;
+        FLPower    = Range.clip(vertMove - turn - horMove, -1.0, 1.0) ;
+        FRPower   = Range.clip(vertMove + turn + horMove, -1.0, 1.0) ;
+        BLPower    = Range.clip(vertMove - turn + horMove, -1.0, 1.0) ;
+        BRPower   = Range.clip(vertMove + turn - horMove, -1.0, 1.0) ;
 
 /*
         boolean forwardCardiA = gamepad1.a;
@@ -198,7 +232,8 @@ public class BasicOpMode_Iterative extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", FLPower, FRPower, BLPower, BRPower);
+        telemetry.addData("Motors", "gamepad forward (%.2f), right (%.2f)", vertMove, horMove, BLPower, BRPower);
+
     }
 
     /*
