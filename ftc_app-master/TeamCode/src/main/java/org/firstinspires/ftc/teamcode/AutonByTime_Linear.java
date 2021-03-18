@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
@@ -58,7 +59,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutonChained: Auto Drive By Time", group="Autonomous")
+@Autonomous(name="AutonChained: Auto Drive By Time", group="Linear Auton")
 public class AutonByTime_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -74,12 +75,10 @@ public class AutonByTime_Linear extends LinearOpMode {
 
     private DcMotor Launcher = null;
 
-    private DcMotor CardiA = null;
     private DcMotor beltboy = null;
     private DcMotor scoopydoo = null;
 
-    static final double     FORWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.5;
+
 
     public void wait(double waittime) {
 
@@ -90,10 +89,14 @@ public class AutonByTime_Linear extends LinearOpMode {
         }
     }
 
+
     @Override
     public void runOpMode() {
 
-        /*
+
+
+
+      /*
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
@@ -107,10 +110,10 @@ public class AutonByTime_Linear extends LinearOpMode {
         beltboy = hardwareMap.get(DcMotor.class, "beltMAN" );
         scoopydoo = hardwareMap.get(DcMotor.class, "scoopMAN" );
 
-        FLDrive.setDirection(DcMotor.Direction.FORWARD);
-        FRDrive.setDirection(DcMotor.Direction.REVERSE);
-        BLDrive.setDirection(DcMotor.Direction.FORWARD);
-        BRDrive.setDirection(DcMotor.Direction.REVERSE);
+        FLDrive.setDirection(DcMotor.Direction.REVERSE);
+        FRDrive.setDirection(DcMotor.Direction.FORWARD);
+        BLDrive.setDirection(DcMotor.Direction.REVERSE);
+        BRDrive.setDirection(DcMotor.Direction.FORWARD);
         beltboy.setDirection(DcMotor.Direction.REVERSE);
         scoopydoo.setDirection(DcMotor.Direction.REVERSE);
 
@@ -122,7 +125,33 @@ public class AutonByTime_Linear extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        //forward
+        FRDrive.setPower(1);
+        FLDrive.setPower(1);
+        BLDrive.setPower(1);
+        BRDrive.setPower(1);
+        wait(3.04);
 
+        // idle
+        FRDrive.setPower(0);
+        FLDrive.setPower(0);
+        BLDrive.setPower(0);
+        BRDrive.setPower(0);
+        wait();
+
+        // turning left
+        FRDrive.setPower(1);
+        FLDrive.setPower(-1);
+        BRDrive.setPower(1);
+        BLDrive.setPower(-1);
+        wait(2.6);
+
+        //reverse
+        FRDrive.setPower(-1);
+        FLDrive.setPower(-1);
+        BRDrive.setPower(-1);
+        BLDrive.setPower(-1);
+        wait(3.5);
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
 
